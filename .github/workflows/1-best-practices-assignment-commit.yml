@@ -1,0 +1,41 @@
+name: Best Practices Assignment - Commit Phase
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "ThePhasesOfCraftship/2_best_practice_first/deployment/assignment/end/**"
+    branches:
+      - main # or specify your desired branch
+
+env:
+  PROJECT_PATH: "ThePhasesOfCraftship/2_best_practice_first/deployment/assignment/end"
+
+jobs:
+  lint-build-test-archive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.16
+
+      - name: Install
+        run: npm i
+        working-directory: ${{ env.PROJECT_PATH }}
+
+      - name: Lint
+        run: npm run lint
+        working-directory: ${{ env.PROJECT_PATH }}
+
+      - name: Build
+        run: npm run build
+        working-directory: ${{ env.PROJECT_PATH }}
+
+      - name: Test (core unit tests)
+        run: npm run test:unit
+        working-directory: ${{ env.PROJECT_PATH }}

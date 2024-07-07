@@ -1,0 +1,31 @@
+name: Commit Phase
+
+on:
+  push:
+    branches:
+      - main # or specify your desired branch
+
+jobs:
+  lint-build-test-archive:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.16
+
+      - name: Install
+        run: npm i
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      - name: Test (core unit tests)
+        run: npm run test:unit

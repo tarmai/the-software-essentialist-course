@@ -1,0 +1,18 @@
+name: Automatically Deploy to Staging
+
+on:
+  workflow_run:
+    workflows: ["Commit Phase"]
+    types:
+      - completed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to production
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: srv-cpvcjehu0jms73apojq0
+          api-key: ${{ secrets.RENDER_TOKEN }}
+          wait-for-success: true
